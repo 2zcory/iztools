@@ -1,7 +1,7 @@
 /*
     obj: {
-        tab: "",
-        content: "",
+        tabNav: "",
+        tabContent: "",
         tabMark: "",
         contentMark: "",
     }
@@ -13,7 +13,7 @@ module.exports = function tabtab(obj) {
     const contentMark = obj.contentMark || "show";
 
     const tabList = document.querySelectorAll(tabNav);
-    const tabNavDefault = document.querySelector(`${tabnav}[iz-default]`);
+    const tabNavDefault = document.querySelector(`${tabNav}[iz-default]`);
     const contentList = document.querySelectorAll(tabContent);
 
     let currentId = tabNavDefault.dataset.tabid || tabList[0].dataset.tabid;
