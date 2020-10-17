@@ -1,6 +1,6 @@
 {
   "name": "iztools",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +14,5 @@
   ],
   "author": "Cory",
   "license": "ISC",
-  "description": ""
+  "description": "fix tabtab"
 }

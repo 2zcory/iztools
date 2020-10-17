@@ -16,12 +16,14 @@ module.exports = function tabtab(obj) {
     const tabNavDefault = document.querySelector(`${tabNav}[iz-default]`);
     const contentList = document.querySelectorAll(tabContent);
 
-    let currentId = tabNavDefault.dataset.tabid || tabList[0].dataset.tabid;
+    let currentId = null;
 
     if (tabNavDefault) {
         tabNavDefault.classList.add(tabMark);
+        currentId = tabNavDefault.dataset.tabid;
     } else {
         tabList[0].classList.add(tabMark)
+        currentId = tabList[0].dataset.tabid;
     }
 
     contentList.forEach(content => {
