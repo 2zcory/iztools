@@ -12,16 +12,7 @@
     - content master sẽ được gán thuộc tính iz-default
 */
 
-const obj = {
-    button: '[izshow-button]',
-    content: '[izshow-content]',
-    mode: 'slide',
-    hideButtonOnDisable: 'flex'
-}
-
-izShow(obj)
-
-function izShow(obj) {
+module.exports = function izShow(obj) {
 
     const { button, content, activeButton, mode } = obj;
     const root = document.querySelector(obj.root) || document;
@@ -67,8 +58,6 @@ function izShow(obj) {
             }
         })
     }
-
-    console.log(currentShow)
 
     // tablist
     buttonsEle.forEach((btn, i, btnList) => {
@@ -130,8 +119,6 @@ function izShow(obj) {
                         if (currentShow === 0) return;
                         --currentShow;
                     } else return;
-
-                    console.log(currentShow)
 
                     contentsEle.forEach(content => {
                         content.classList.remove(showContent);
