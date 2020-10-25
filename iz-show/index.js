@@ -12,6 +12,12 @@
     - content master sẽ được gán thuộc tính iz-default
 */
 
+/*
+    Attribute cho content: 
+        data-show chưa value duy nhất để đánh dấu hiển thị
+        data-show có thể đánh theo số thứ tự để thông báo thứ tự hiển thị
+*/
+
 module.exports = function izShow(obj) {
 
     const { button, content, activeButton, mode } = obj;
