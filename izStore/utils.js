@@ -1,10 +1,10 @@
-export const checkState = (state) => {
+export const checkState = (store, state) => {
     const haveState = Object.keys(store).some(key => key === state)
     if (!haveState) return false
     return true
 }
 
-export const checkDispatchPatch = (state, action) => {
+export const checkDispatchPatch = (store, state, action) => {
     const haveState = Object.keys(store).some(key => key === state);
     if (!haveState) {
         console.log('state chưa được tạo')

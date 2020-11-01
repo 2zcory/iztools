@@ -5,7 +5,13 @@ const store = {};
 
 export const initialStore = () => {
     return {
-        getStore: () => store,
+        getStore: () => {
+            const returnStore = {}
+            Object.keys(store).forEach(key => {
+                returnStore[key] = store[key].state
+            })
+            return returnStore
+        },
         create: (name, stateObj) => {
             store[name] = {
                 ...stateObj,
@@ -13,13 +19,13 @@ export const initialStore = () => {
             }
         },
         getState: (state) => {
-            if (!checkState(state)) return
+            if (!checkState(store, state)) return
             return store[state].state
         },
         dispatch: (path, data) => {
             const [state, action] = path.split("/")
 
-            if (!checkDispatchPatch(state, action)) return
+            if (!checkDispatchPatch(store, state, action)) return
 
             const context = {
                 commit: (mutation, data) => {
@@ -27,7 +33,7 @@ export const initialStore = () => {
                 },
                 state: store[state].state,
                 dispatch: (action, data) => {
-                    if (!checkDispatchPatch(state, action)) return
+                    if (!checkDispatchPatch(store, state, action)) return
                     return store[state].actions[action](context, data)
                 }
             }

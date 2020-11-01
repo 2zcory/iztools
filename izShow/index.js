@@ -1,4 +1,4 @@
-export default izShow = (obj) => {
+export default (obj) => {
 
     const { button, content, activeButton, mode } = obj;
     const root = document.querySelector(obj.root) || document;

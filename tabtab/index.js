@@ -7,7 +7,7 @@
     }
 */
 
-export default tabtab = (obj) => {
+export default (obj) => {
     const { tabNav, tabContent } = obj;
     const tabMark = obj.tabMark || "active";
     const contentMark = obj.contentMark || "show";
