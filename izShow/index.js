@@ -1,24 +1,4 @@
-/*
-    obj: {
-        root: '', // queryOne
-        * button: '', // queryAll
-        activeButton: '', // default false - class name
-        * content: '', // queryAll
-        showContent: '', // default 'show' - class name
-        * mode: 'slide' | 'tablist' | 'toggle'
-        hideButtonOnDisable: 'block' // mode 'slide'
-    }
-
-    - content master sẽ được gán thuộc tính iz-default
-*/
-
-/*
-    Attribute cho content: 
-        data-show chưa value duy nhất để đánh dấu hiển thị
-        data-show có thể đánh theo số thứ tự để thông báo thứ tự hiển thị
-*/
-
-module.exports = function izShow(obj) {
+export default izShow = (obj) => {
 
     const { button, content, activeButton, mode } = obj;
     const root = document.querySelector(obj.root) || document;

@@ -1,7 +1,9 @@
 // import * as search from './search.js'
+import { checkState, checkDispatchPatch } from './utils'
+
 const store = {};
 
-module.exports = function initialStore() {
+export const initialStore = () => {
     return {
         getStore: () => store,
         create: (name, stateObj) => {
@@ -34,25 +36,6 @@ module.exports = function initialStore() {
     }
 }
 
-function checkState(state) {
-    const haveState = Object.keys(store).some(key => key === state)
-    if (!haveState) return false
-    return true
-}
-
-function checkDispatchPatch(state, action) {
-    const haveState = Object.keys(store).some(key => key === state);
-    if (!haveState) {
-        console.log('state chưa được tạo')
-        return false
-    }
-    const haveAction = Object.keys(store[state].actions).some(key => key === action)
-    if (!haveAction) {
-        console.log('action chưa được tạo')
-        return false
-    }
-    return true
-}
 
 // const mapState = ({ variable, state }) => {
 //     return {
