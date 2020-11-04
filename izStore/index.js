@@ -31,10 +31,17 @@ export const initialStore = () => {
                 commit: (mutation, data) => {
                     store[state].state = store[state].mutations[mutation](store[state].state, data)
                 },
-                state: store[state].state,
                 dispatch: (action, data) => {
                     if (!checkDispatchPatch(store, state, action)) return
                     return store[state].actions[action](context, data)
+                },
+                state: () => store[state].state,
+                rootState: () => {
+                    const returnStore = {}
+                    Object.keys(store).forEach(key => {
+                        returnStore[key] = store[key].state
+                    })
+                    return returnStore
                 }
             }
             return store[state].actions[action](context, data)
