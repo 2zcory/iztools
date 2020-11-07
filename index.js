@@ -1,5 +1,7 @@
 import izShow from './izShow'
-import * as izStore from './izStore'
+import { ZStore } from './storez'
 import tabtab from './tabtab'
 
-export { tabtab, izShow, izStore }
+export default ZStore
+
+export { izShow, tabtab }
