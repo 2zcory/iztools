@@ -2,6 +2,10 @@
 
 ---
 
+### 1.1.8
+
+- feat: cập nhật rootDispatch cho context của action
+
 ### 1.1.7
 
 - Thay đổi `initialStore()` thành constructor `new ZStore()` (import default để lấy nó)

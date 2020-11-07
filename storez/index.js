@@ -45,7 +45,8 @@ export class ZStore {
                         returnStore[key] = store[key].state
                     })
                     return returnStore
-                }
+                },
+                rootDispatch: this.dispatch
             }
             return store[state].actions[action](context, data)
         }
