@@ -3,7 +3,7 @@ import { checkState, checkDispatchPatch } from './utils'
 
 const store = {};
 
-export class ZStore {
+export default class StoreZ {
     constructor() {
         this.getStore = () => {
             const returnStore = {}
