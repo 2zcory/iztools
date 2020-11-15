@@ -8,14 +8,14 @@ export default class StoreZ {
         this.getStore = () => {
             const returnStore = {}
             Object.keys(store).forEach(key => {
-                returnStore[key] = store[key].state
+                returnStore[key] = { ...store[key].state }
             })
             return returnStore
         }
 
         this.getState = (state) => {
             if (!checkState(store, state)) return
-            return store[state].state
+            return { ...store[state].state }
         }
 
         this.create = (name, stateObj) => {
@@ -32,20 +32,20 @@ export default class StoreZ {
 
             const context = {
                 commit: (mutation, data) => {
-                    store[state].state = store[state].mutations[mutation](store[state].state, data)
+                    store[state].mutations[mutation](store[state].state, data)
                 },
                 dispatch: (action, data) => {
                     if (!checkDispatchPatch(store, state, action)) return
                     return store[state].actions[action](context, data)
                 },
-                state: () => store[state].state,
-                rootState: () => {
+                state: (() => ({ ...store[state].state }))(),
+                rootState: (() => {
                     const returnStore = {}
                     Object.keys(store).forEach(key => {
-                        returnStore[key] = store[key].state
+                        returnStore[key] = { ...store[key].state }
                     })
                     return returnStore
-                },
+                })(),
                 rootDispatch: this.dispatch
             }
             return store[state].actions[action](context, data)
