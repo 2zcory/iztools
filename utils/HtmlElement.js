@@ -10,7 +10,7 @@ export const $createElement = (tag, obj) => {
 }
 
 export const $pushElement = (parent) => (children) => {
-    if (!paren || !children) return
+    if (!parent || !children) return
     const childType = typeof children;
     switch (childType) {
         case 'array':
