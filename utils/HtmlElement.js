@@ -13,11 +13,15 @@ export const $pushElement = (parent) => (children) => {
     if (!parent || !children) return
     const childType = typeof children;
     switch (childType) {
-        case 'array':
-            children.forEach(child => parent.appendChild(child))
+        case 'object':
+            if (children.length) {
+                children.forEach(child => parent.appendChild(child))
+            } else {
+                parent.appendChild(children)
+            }
             break;
         default:
-            parent.appendChild(children)
+            console.log('invalid child!')
             break;
     }
 }
