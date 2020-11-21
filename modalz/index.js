@@ -28,7 +28,10 @@ export default class ModalZ {
     initialModal() {
         $pushElement(this.$modal)([this.$modalBtn, this.$modalBg, this.$modalCtn])
         $pushElement(this.$root)(this.$modal)
-        this.$modalBtn.addEventListener('click', e => this.$modal.classList.remove('open'))
+        this.$modalBtn.addEventListener('click', e => {
+            this.$modalCtn.innerHTML = ''
+            this.$modal.classList.remove('open')
+        })
     }
 
     /* NOTE
@@ -36,6 +39,7 @@ export default class ModalZ {
     */
     addContent(obj) {
         const { button, content } = obj;
+        if (!content) return;
         if (button) {
             const buttonEle = $ele.get(button)(this.$root).addEventListener('click', () => this.$modal.classList.add("open"));
             this.$buttons.push(buttonEle);
