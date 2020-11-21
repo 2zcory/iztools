@@ -1,43 +1,45 @@
 import "index.css"
-import { createEle, getEle } from "../utils"
+import $ele from "../utils/HtmlElement"
 
 /* 
 {
     root: "#app",
 } 
 */
-
-class ModalZ {
+export default class ModalZ {
     constructor(obj) {
-        this.root = obj.root ? getEle(document, obj.root) : document.body
+        const { root } = obj
+        // NOTE Khởi tạo các element cần thiết của ModalZ (root, modal, modalBg, Modal, Btn, ModalCtn)
+        this.$root = root ? $ele.get(root)(document) : document.body
+        this.$modal = $ele.create("div", { id: "modalz", "modalz": "" })
+        this.$modalBg = $ele.create("div", { id: "modalz-bg", "modalz-bg": "" })
+        this.$modalBtn = $ele.create("div", { id: "modalz-btn", "modalz-btn": "" })
+        this.$modalCtn = $ele.create("div", { id: "modalz-ctn", "modalz-ctn": "" })
+        this.$buttons = []
 
-        const { modal, modalCtn } = this.initialModal()
-        const btnOpenList = []
-
-        this.addBtnOpen = (ele) => {
-            btnOpenList.push(ele)
-            btnOpenList.forEach(btn =>
-                getEle(root, btn).addEventListener('click', e => modal.classList.add('open'))
-            )
-        }
-
-        this.addContent = (htmlContent) => {
-            modalCtn.innerHTML = htmlContent
-        }
+        this.initialModal();
+        this.addContent;
     }
 
+    /*  NOTE
+        - Gán các thành phần vào modal và thêm vào document
+        - * Thêm sự kiện: click btn -> đóng modal
+    */
     initialModal() {
-        const modal = createEle("div", { id: "modalz", "modalz": "" })
-        const modalBg = createEle("div", { id: "modalz-bg", "modalz-bg": "" })
-        const modalBtn = createEle("div", { id: "modalz-btn", "modalz-btn": "" })
-        const modalCtn = createEle("div", { id: "modalz-ctn", "modalz-ctn": "" })
-        modal.appendChild(modalCtn)
-        modal.appendChild(modalBtn)
-        modal.appendChild(modalBg)
-        this.root.appendChild(modal)
+        this.$modal.$push([this.$modalBtn, this.$modalBg, this.$modalCtn])
+        this.$root.appendChild(this.$modal)
+        modalBtn.addEventListener('click', e => this.$modal.$removeClass('open'))
+    }
 
-        modalBtn.addEventListener('click', e => modal.classList.remove('open'))
-
-        return { modalCtn, modalBtn, modalBg, modal }
+    /* NOTE
+        - Thêm Button và Content vào modal  
+    */
+    addContent(obj) {
+        const { button, content } = obj;
+        const buttonEle
+            = $ele.get(button)(this.$root)
+                .addEventListener('click', () => this.$modal.$addClass("open"));
+        this.$buttons.push(buttonEle);
+        this.$modalCtn.innerHTML = content
     }
 }

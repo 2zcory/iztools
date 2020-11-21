@@ -18,11 +18,17 @@ export default class StoreZ {
             return { ...store[state].state }
         }
 
-        this.create = (name, stateObj) => {
-            store[name] = {
-                ...stateObj,
-                state: stateObj.state()
-            }
+        this.create = (stateObjList) => {
+            Object.keys(stateObjList).forEach(key => {
+                store[key] = {
+                    ...stateObjList[key],
+                    state: stateObjList[key].state(),
+                }
+            })
+            // REMOVE store[name] = {
+            //     ...stateObj,
+            //     state: stateObj.state()
+            // }
         }
 
         this.dispatch = (path, data) => {
