@@ -28,7 +28,7 @@ export default class ModalZ {
     initialModal() {
         $pushElement(this.$modal)([this.$modalBtn, this.$modalBg, this.$modalCtn])
         $pushElement(this.$root)(this.$modal)
-        modalBtn.addEventListener('click', e => this.$modal.classList.remove('open'))
+        this.$modalBtn.addEventListener('click', e => this.$modal.classList.remove('open'))
     }
 
     /* NOTE
