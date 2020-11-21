@@ -14,22 +14,23 @@
 
     &-btn {
         position: absolute;
-        z-index: 100002;
+        z-index: 100003;
         top: 16px;
         right: 16px;
         width: 40px;
         height: 40px;
         border-radius: 4px;
         overflow: hidden;
-        background: rgba($color: #000000, $alpha: 0.2);
+        background: rgba($color: #000000, $alpha: 0.4);
 
         &::before {
             content: "";
             position: absolute;
-            width: 100%;
+            width: 200%;
             height: 4px;
+            left: -50%;
             top: 50%;
-            transform: translateY(-50%) rotateX(45deg);
+            transform: translateY(-50%) rotate(45deg);
             background: #f3f3f3;
         }
 
@@ -38,8 +39,9 @@
             position: absolute;
             width: 100%;
             height: 4px;
+            left: -50%;
             top: 50%;
-            transform: translateY(-50%) rotateX(-45deg);
+            transform: translateY(-50%) rotate(-45deg);
             background: #f3f3f3;
         }
     }
@@ -53,13 +55,14 @@
         bottom: 0;
         width: 100%;
         height: 100vh;
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.4);
     }
 
     &-ctn {
         position: relative;
-        z-index: 100003;
+        z-index: 100002;
         max-height: 100vh;
         max-width: 100%;
+        overflow: hidden;
     }
 }
