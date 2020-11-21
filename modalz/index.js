@@ -1,5 +1,5 @@
-import "index.css"
-import $ele from "../utils/HtmlElement"
+import "./index.scss"
+import $ele, { $pushElement } from "../utils/HtmlElement"
 
 /* 
 {
@@ -26,9 +26,9 @@ export default class ModalZ {
         - * Thêm sự kiện: click btn -> đóng modal
     */
     initialModal() {
-        this.$modal.$push([this.$modalBtn, this.$modalBg, this.$modalCtn])
-        this.$root.appendChild(this.$modal)
-        modalBtn.addEventListener('click', e => this.$modal.$removeClass('open'))
+        $pushElement(this.$modal)([this.$modalBtn, this.$modalBg, this.$modalCtn])
+        $pushElement(this.$root)(this.$modal)
+        modalBtn.addEventListener('click', e => this.$modal.classList.remove('open'))
     }
 
     /* NOTE
@@ -36,9 +36,7 @@ export default class ModalZ {
     */
     addContent(obj) {
         const { button, content } = obj;
-        const buttonEle
-            = $ele.get(button)(this.$root)
-                .addEventListener('click', () => this.$modal.$addClass("open"));
+        const buttonEle = $ele.get(button)(this.$root).addEventListener('click', () => this.$modal.classList.add("open"));
         this.$buttons.push(buttonEle);
         this.$modalCtn.innerHTML = content
     }

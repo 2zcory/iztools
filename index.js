@@ -1,3 +1,4 @@
 import izShow from './izShow'
+import $ele from './utils/HtmlElement'
 
-export { izShow }
+export { izShow, $ele }
