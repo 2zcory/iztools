@@ -35,5 +35,7 @@ export const $addAttribute = (parent) => (obj) => {
 
 export default {
     get: $getElement,
-    create: $createElement
+    create: $createElement,
+    $addAttribute,
+    $pushElement
 }
