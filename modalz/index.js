@@ -18,7 +18,6 @@ export default class ModalZ {
         this.$buttons = []
 
         this.initialModal();
-        this.addContent;
     }
 
     /*  NOTE
@@ -29,8 +28,8 @@ export default class ModalZ {
         $pushElement(this.$modal)([this.$modalBtn, this.$modalBg, this.$modalCtn])
         $pushElement(this.$root)(this.$modal)
         this.$modalBtn.addEventListener('click', e => {
-            this.$modalCtn.innerHTML = ''
             this.$modal.classList.remove('open')
+            this.$modalCtn.innerHTML = ''
         })
     }
 
@@ -47,5 +46,9 @@ export default class ModalZ {
             this.$modal.classList.add("open")
         }
         this.$modalCtn.innerHTML = content
+    }
+    close() {
+        this.$modal.classList.remove("open")
+        this.$modalCtn.innerHTML = ''
     }
 }
