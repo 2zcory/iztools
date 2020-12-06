@@ -37,13 +37,24 @@ export default class ModalZ {
         - Thêm Button và Content vào modal  
     */
     addContent(obj) {
-        const { button, content } = obj;
+        const { button, content, options } = obj;
         if (!content) return;
         if (button) {
             const buttonEle = $ele.get(button)(this.$root).addEventListener('click', () => this.$modal.classList.add("open"));
             this.$buttons.push(buttonEle);
         } else {
             this.$modal.classList.add("open")
+        }
+        if (Array.isArray(options)) {
+            options.forEach(key => {
+                switch (key) {
+                    case 'bgClick': {
+                        this.$modalBtn.style.display = 'none'
+                        this.$modalBg.addEventListener('click', () => this.$modal.classList.remove("open"))
+                        return
+                    }
+                }
+            })
         }
         this.$modalCtn.innerHTML = content
     }
