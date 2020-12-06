@@ -65,7 +65,7 @@ export default class StoreZ {
     }
 }
 
-const mapGetters = (stateName, stateList) => {
+export const mapGetters = (stateName, stateList) => {
     const isArray = Array.isArray(stateList)
     const currentState = store[stateName]
     if (isArray) {
