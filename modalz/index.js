@@ -30,6 +30,7 @@ export default class ModalZ {
         this.$modalBtn.addEventListener('click', e => {
             this.$modal.classList.remove('open')
             this.$modalCtn.innerHTML = ''
+            document.body.style.overflow = 'unset'
         })
     }
 
@@ -40,17 +41,25 @@ export default class ModalZ {
         const { button, content, options } = obj;
         if (!content) return;
         if (button) {
-            const buttonEle = $ele.get(button)(this.$root).addEventListener('click', () => this.$modal.classList.add("open"));
+            const buttonEle = $ele.get(button)(this.$root).addEventListener('click', () => {
+                this.$modal.classList.add("open")
+                document.body.style.overflow = 'hidden'
+            });
             this.$buttons.push(buttonEle);
         } else {
             this.$modal.classList.add("open")
+            document.body.style.overflow = 'hidden'
         }
         if (Array.isArray(options)) {
             options.forEach(key => {
                 switch (key) {
                     case 'bgClick': {
                         this.$modalBtn.style.display = 'none'
-                        this.$modalBg.addEventListener('click', () => this.$modal.classList.remove("open"))
+                        this.$modalBg.addEventListener('click', () => {
+                            this.$modal.classList.remove("open")
+                            document.body.style.overflow = 'unset'
+                        })
+
                         return
                     }
                 }
@@ -60,6 +69,7 @@ export default class ModalZ {
     }
     close() {
         this.$modal.classList.remove("open")
+        document.body.style.overflow = 'unset'
         this.$modalCtn.innerHTML = ''
     }
 }
