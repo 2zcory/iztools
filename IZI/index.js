@@ -7,6 +7,9 @@ export default class IZI {
         this.computedObject = {}
         this.methodObject = {}
         this.componentObject = {}
+        this.created = () => null
+        this.mounted = () => null
+        this.updated = () => null
     }
 
     addRoot(root) {
@@ -59,9 +62,6 @@ export default class IZI {
     }
 
     lifecycle(lifeCycleObject) {
-        this.created = () => null
-        this.mounted = () => null
-        this.updated = () => null
         if (lifeCycleObject.created) {
             this.created = lifeCycleObject.created.bind(this)
         }
