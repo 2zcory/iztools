@@ -45,8 +45,8 @@ export default class IZI {
     }
 
     eventUpdate(callback) {
-        return async (e) => {
-            await callback(e)
+        return (e) => {
+            callback(e)
             return this.update();
         }
     }
@@ -110,9 +110,10 @@ export default class IZI {
         this.initMethod()
     }
 
-    async update() {
-        await this.updated()
-        return this.render()
+    update() {
+        this.render()
+        return this.updated()
+
     }
 
     // initial Component
