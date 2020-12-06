@@ -20,15 +20,15 @@ export default class StoreZ {
 
         this.create = (stateObjList) => {
             Object.keys(stateObjList).forEach(key => {
-                const { getter, state } = stateObjList[key]
+                const { getter } = stateObjList[key]
                 const newGetter = Object.keys(getter).reduce((acc, item) => {
-                    acc[item] = getter[item]({ ...state() })
+                    acc[item] = getter[item]({ ...stateObjList[key].state() })
                     return acc
                 }, {})
                 store[key] = {
                     ...stateObjList[key],
                     getter: newGetter,
-                    state: state(),
+                    state: stateObjList[key].state(),
                 }
             })
             // REMOVE store[name] = {
