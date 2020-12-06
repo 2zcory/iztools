@@ -29,7 +29,7 @@ export default class IZI {
     eventListener(eventObject) {
         this.eventListenerObject = {
             ...this.eventObject,
-            eventObject
+            ...eventObject
         }
     }
 
@@ -43,7 +43,7 @@ export default class IZI {
     data(dataObject) {
         this.dataObject = {
             ...this.dataObject,
-            dataObject
+            ...dataObject
         }
     }
 
