@@ -2,7 +2,8 @@ export default class IZI {
     constructor(props) {
         this.root = document.body
         this.props = props
-        this.dataObject = null
+        this.dataObject = {}
+        this.eventObject = {}
     }
 
     addRoot(root) {
@@ -26,22 +27,24 @@ export default class IZI {
     }
 
     eventListener(eventObject) {
-        Object.keys(eventObject).forEach(element => {
-            Object.keys(eventObject[element]).forEach(type => {
-                this[element].addEventListener(type, this.eventUpdate(eventObject[element][type].bind(this)))
-            })
-        })
+        this.eventListenerObject = {
+            ...this.eventObject,
+            eventObject
+        }
     }
 
     eventUpdate(callback) {
         return async (e) => {
             await callback(e)
-            return this.reRender();
+            return this.update();
         }
     }
 
     data(dataObject) {
-        this.dataObject = dataObject
+        this.dataObject = {
+            ...this.dataObject,
+            dataObject
+        }
     }
 
     method(methodObject) {
@@ -52,25 +55,23 @@ export default class IZI {
 
     lifeCycle(lifeCycleObject) {
         if (lifeCycleObject.mounted) {
-            this.mounted = lifeCycleObject.mounted.bind(this)
+            this.mount = lifeCycleObject.mount.bind(this)
         }
         if (lifeCycleObject.updated) {
             this.updated = lifeCycleObject.updated.bind(this)
         }
     }
 
-    render() {
-        this.mounted()
-    }
-
     // initial Data (after store fetching data)
     create() {
         Object.keys(this.dataObject).forEach(key => {
-            if (key === 'mapGetters') {
-                const getterObject = this.dataObject[key]()
-                Object.keys(getterObject).forEach(getterKey => {
-                    this[getterKey] = getterObject[getterKey]
-                })
+            if (key === 'storez') {
+                this.dataObject.storez.forEach(getter => {
+                    const getterObject = getter()
+                    Object.keys(getterObject).forEach(getterKey => {
+                        this[getterKey] = getterObject[getterKey]
+                    })
+                });
                 return
             }
             this[key] = this.dataObject[key]
@@ -79,60 +80,20 @@ export default class IZI {
         delete this.dataObject
     }
 
-    async reRender() {
+    render() {
+        this.mount()
+        // add Event
+        Object.keys(this.eventObject).forEach(element => {
+            Object.keys(this.eventObject[element]).forEach(type => {
+                this[element].addEventListener(type, this.eventUpdate(this.eventObject[element][type].bind(this)))
+            })
+        })
+    }
+
+
+    async update() {
         await this.updated()
         return this.mounted()
     }
 
 }
-
-// const home = new IZI();
-
-// home.addRoot("#main")
-
-// home.element({
-//     '$title': home.getElement("#title"),
-//     '$subtitle': home.getElement("#para")
-// })
-
-// home.eventListener({
-//     '$title': {
-//         click(e) {
-//             this.title = 'Updatingggg...'
-//             this.isClicked = true
-//         }
-//     }
-// })
-
-// home.data({
-//     title: "Hello World",
-//     isClicked: false,
-// })
-
-// home.method({
-//     initial() {
-//         this.$subtitle.innerHTML = 'This is sub paragraph'
-//         this.$title.innerHTML = this.title
-//     },
-//     updatee() {
-//         if (this.isClicked) {
-//             this.$subtitle.innerHTML = 'Tui da click roi nha'
-//         }
-//     }
-// })
-
-
-
-// home.lifeCycle({
-//     mount() {
-//         this.initial()
-//     },
-//     updated() {
-//         this.updatee()
-//     },
-// })
-
-
-// home.render()
-
-// console.log(home)
