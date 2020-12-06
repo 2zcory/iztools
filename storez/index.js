@@ -69,7 +69,6 @@ export const mapGetters = (stateName, stateList) => {
     return () => {
         const isArray = Array.isArray(stateList)
         const currentGetter = store[stateName].getter
-        console.log('Getters', currentGetter)
         if (isArray) {
             const stateGetters = stateList.reduce((acc, item) => {
                 acc[item] = currentGetter[item]
