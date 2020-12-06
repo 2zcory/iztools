@@ -61,11 +61,14 @@ export default class IZI {
     method(methodObject) {
         this.methodObject = {
             ...this.methodObject,
-            methodObject
+            ...methodObject
         }
     }
 
     lifecycle(lifeCycleObject) {
+        this.created = () => null
+        this.mounted = () => null
+        this.updated = () => null
         if (lifeCycleObject.created) {
             this.created = lifeCycleObject.created.bind(this)
         }
@@ -86,27 +89,16 @@ export default class IZI {
         // add method before created
         this.initMethod()
 
-    }
-
-    mount() {
-        this.render()
+        this.created()
 
         delete this.dataObject
-        delete this.elementObject
-        delete this.eventObject
-        delete this.methodObject
-        delete this.computedObject
     }
 
     render() {
-        // add data to Component from dataObject
-        this.initData()
         // add data to Component from computedObject
         this.initComputed()
         // add Element to Component
         this.initElement()
-        // add Event
-        this.initEvent()
         // add method again before mounted
         this.initMethod()
 
@@ -121,8 +113,13 @@ export default class IZI {
     // initial Component
     initData() {
         Object.keys(this.dataObject).forEach(key => {
+            this[key] = this.dataObject[key]
+        })
+    }
+    initComputed() {
+        Object.keys(this.computedObject).forEach(key => {
             if (key === 'storez') {
-                this.dataObject.storez.forEach(getter => {
+                this.computedObject.storez.forEach(getter => {
                     const getterObject = getter()
                     Object.keys(getterObject).forEach(getterKey => {
                         this[getterKey] = getterObject[getterKey]
@@ -130,14 +127,11 @@ export default class IZI {
                 });
                 return
             }
-            this[key] = this.dataObject[key]
-        })
-    }
-    initComputed() {
-        Object.keys(this.computedObject).forEach(key => {
-            if (typeof this.computedObject[key] !== 'function') return
-            this.computedObject[key] = this.computedObject[key].bind(this)
-            this[key] = this.computedObject[key]()
+            if (typeof this.computedObject[key] === 'function') {
+                this.computedObject[key] = this.computedObject[key].bind(this)
+                this[key] = this.computedObject[key]()
+                return
+            }
         })
     }
     initMethod() {
@@ -147,15 +141,22 @@ export default class IZI {
     }
     initElement() {
         Object.keys(this.elementObject).forEach(key => {
-            this[key] = this.elementObject[key]
+            const elementValue = this.elementObject[key]
+            if (Array.isArray(elementValue)) {
+                this[key] = elementValue[0]
+            }
+            if (typeof elementValue === 'object') {
+                const { element, event: eventList } = elementValue
+                if (element) {
+                    this[key] = element;
+                }
+                if (eventList) {
+                    Object.keys(eventList).forEach(eventName => {
+                        this[key].addEventListener(eventName, this.eventUpdate(eventList[eventName].bind(this)))
+                    })
+                }
+                return;
+            }
         })
     }
-    initEvent() {
-        Object.keys(this.eventObject).forEach(element => {
-            Object.keys(this.eventObject[element]).forEach(type => {
-                this[element].addEventListener(type, this.eventUpdate(this.eventObject[element][type].bind(this)))
-            })
-        })
-    }
-
 }
