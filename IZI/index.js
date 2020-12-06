@@ -5,6 +5,7 @@ export default class IZI {
         this.dataObject = {}
         this.eventObject = {}
         this.elementObject = {}
+        this.computedObject = {}
     }
 
     addRoot(root) {
@@ -25,6 +26,13 @@ export default class IZI {
         this.elementObject = {
             ...this.elementObject,
             ...elementObject
+        }
+    }
+
+    computed(computedObject) {
+        this.computedObject = {
+            ...this.computedObject,
+            ...computedObject
         }
     }
 
@@ -66,6 +74,7 @@ export default class IZI {
 
     // initial Data (after store fetching data)
     create() {
+        // add data to Component from dataObject
         Object.keys(this.dataObject).forEach(key => {
             if (key === 'storez') {
                 this.dataObject.storez.forEach(getter => {
@@ -77,6 +86,11 @@ export default class IZI {
                 return
             }
             this[key] = this.dataObject[key]
+        })
+        // add data to Component from computedObject
+        Object.keys(this.computedObject).forEach(key => {
+            if (typeof this.computedObject[key] !== 'function') return
+            this[key] = this.computedObject[key]()
         })
 
         delete this.dataObject
@@ -94,6 +108,8 @@ export default class IZI {
             })
         })
         this.mount()
+        delete this.elementObject
+        delete this.eventObject
     }
 
 
