@@ -20,9 +20,15 @@ export default class StoreZ {
 
         this.create = (stateObjList) => {
             Object.keys(stateObjList).forEach(key => {
+                const { getter, state } = stateObjList[key]
+                const newGetter = Object.keys(getter).reduce((acc, item) => {
+                    acc[item] = getter[item]({ ...state() })
+                    return acc
+                }, {})
                 store[key] = {
                     ...stateObjList[key],
-                    state: stateObjList[key].state(),
+                    getter: newGetter,
+                    state: state(),
                 }
             })
             // REMOVE store[name] = {
@@ -58,3 +64,18 @@ export default class StoreZ {
         }
     }
 }
+
+const mapGetters = (stateName, stateList) => {
+    const isArray = Array.isArray(stateList)
+    const currentState = store[stateName]
+    if (isArray) {
+        const stateGetters = stateList.reduce((acc, item) => {
+            acc[item] = currentState.getter[item]
+            return acc
+        }, {})
+
+        return stateGetters
+    }
+}
+
+// export {}
