@@ -4,6 +4,7 @@ export default class IZI {
         this.props = props
         this.dataObject = {}
         this.eventObject = {}
+        this.elementObject = {}
     }
 
     addRoot(root) {
@@ -21,9 +22,10 @@ export default class IZI {
     }
 
     element(elementObject) {
-        Object.keys(elementObject).forEach(key => {
-            this[key] = elementObject[key]
-        })
+        this.elementObject = {
+            ...this.elementObject,
+            ...elementObject
+        }
     }
 
     eventListener(eventObject) {
@@ -81,13 +83,17 @@ export default class IZI {
     }
 
     render() {
-        this.mount()
+        // add Element to Component
+        Object.keys(elementObject).forEach(key => {
+            this[key] = elementObject[key]
+        })
         // add Event
         Object.keys(this.eventObject).forEach(element => {
             Object.keys(this.eventObject[element]).forEach(type => {
                 this[element].addEventListener(type, this.eventUpdate(this.eventObject[element][type].bind(this)))
             })
         })
+        this.mount()
     }
 
 
