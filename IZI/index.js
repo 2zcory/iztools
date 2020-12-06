@@ -1,12 +1,12 @@
 export default class IZI {
-    constructor(props) {
+    constructor() {
         this.root = document.body
-        this.props = props
+        this.props = null
         this.dataObject = {}
-        this.eventObject = {}
         this.elementObject = {}
         this.computedObject = {}
         this.methodObject = {}
+        this.componentObject = {}
     }
 
     addRoot(root) {
@@ -15,12 +15,11 @@ export default class IZI {
         this.root = newRoot
     }
 
-    getElement(selector) {
-        return this.root.querySelector(selector)
-    }
-
-    getAllElement(selector) {
-        return this.root.querySelectorAll(selector)
+    params(props) {
+        this.props = {
+            ...this.props,
+            ...props
+        }
     }
 
     element(elementObject) {
@@ -34,13 +33,6 @@ export default class IZI {
         this.computedObject = {
             ...this.computedObject,
             ...computedObject
-        }
-    }
-
-    eventListener(eventObject) {
-        this.eventListenerObject = {
-            ...this.eventObject,
-            ...eventObject
         }
     }
 
@@ -90,24 +82,25 @@ export default class IZI {
         this.initMethod()
 
         this.created()
-
         delete this.dataObject
     }
 
     mount() {
-        // add data to Component from computedObject
-        this.initComputed()
+        // component create()
+        this.create()
         // add Element to Component
         this.initElement()
+        // add method again before mounted
+        this.initMethod()
 
         this.mounted()
+
+        delete this.elementObject
     }
 
     render() {
         // add data to Component from computedObject
         this.initComputed()
-        // add method again before mounted
-        this.initMethod()
     }
 
     update() {
@@ -164,5 +157,14 @@ export default class IZI {
                 return;
             }
         })
+    }
+
+    // component method
+    getElement(selector) {
+        return this.root.querySelector(selector)
+    }
+
+    getAllElement(selector) {
+        return this.root.querySelectorAll(selector)
     }
 }
