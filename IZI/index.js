@@ -6,6 +6,7 @@ export default class IZI {
         this.eventObject = {}
         this.elementObject = {}
         this.computedObject = {}
+        this.methodObject = {}
     }
 
     addRoot(root) {
@@ -58,14 +59,18 @@ export default class IZI {
     }
 
     method(methodObject) {
-        Object.keys(methodObject).forEach(key => {
-            this[key] = methodObject[key].bind(this)
-        })
+        this.methodObject = {
+            ...this.methodObject,
+            methodObject
+        }
     }
 
     lifecycle(lifeCycleObject) {
-        if (lifeCycleObject.mount) {
-            this.mount = lifeCycleObject.mount.bind(this)
+        if (lifeCycleObject.created) {
+            this.created = lifeCycleObject.created.bind(this)
+        }
+        if (lifeCycleObject.mounted) {
+            this.mounted = lifeCycleObject.mounted.bind(this)
         }
         if (lifeCycleObject.updated) {
             this.updated = lifeCycleObject.updated.bind(this)
@@ -93,8 +98,13 @@ export default class IZI {
             this.computedObject[key] = this.computedObject[key].bind(this)
             this[key] = this.computedObject[key]()
         })
+        // add method before created
+        Object.keys(this.methodObject).forEach(key => {
+            this[key] = this.methodObject[key].bind(this)
+        })
 
         delete this.dataObject
+        delete this.computedObject
     }
 
     render() {
@@ -108,7 +118,11 @@ export default class IZI {
                 this[element].addEventListener(type, this.eventUpdate(this.eventObject[element][type].bind(this)))
             })
         })
-        this.mount()
+        // add method again before mounted
+        Object.keys(this.methodObject).forEach(key => {
+            this[key] = this.methodObject[key].bind(this)
+        })
+        this.mounted()
         delete this.elementObject
         delete this.eventObject
     }
