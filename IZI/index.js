@@ -80,6 +80,46 @@ export default class IZI {
     // initial Data (after store fetching data)
     create() {
         // add data to Component from dataObject
+        this.initData()
+        // add data to Component from computedObject
+        this.initComputed()
+        // add method before created
+        this.initMethod()
+
+    }
+
+    mount() {
+        this.render()
+
+        delete this.dataObject
+        delete this.elementObject
+        delete this.eventObject
+        delete this.methodObject
+        delete this.computedObject
+    }
+
+    render() {
+        // add data to Component from dataObject
+        this.initData()
+        // add data to Component from computedObject
+        this.initComputed()
+        // add Element to Component
+        this.initElement()
+        // add Event
+        this.initEvent()
+        // add method again before mounted
+        this.initMethod()
+
+        this.mounted()
+    }
+
+    async update() {
+        await this.updated()
+        return this.render()
+    }
+
+    // initial Component
+    initData() {
         Object.keys(this.dataObject).forEach(key => {
             if (key === 'storez') {
                 this.dataObject.storez.forEach(getter => {
@@ -92,45 +132,30 @@ export default class IZI {
             }
             this[key] = this.dataObject[key]
         })
-        // add data to Component from computedObject
+    }
+    initComputed() {
         Object.keys(this.computedObject).forEach(key => {
             if (typeof this.computedObject[key] !== 'function') return
             this.computedObject[key] = this.computedObject[key].bind(this)
             this[key] = this.computedObject[key]()
         })
-        // add method before created
+    }
+    initMethod() {
         Object.keys(this.methodObject).forEach(key => {
             this[key] = this.methodObject[key].bind(this)
         })
-
-        delete this.dataObject
-        delete this.computedObject
     }
-
-    render() {
-        // add Element to Component
+    initElement() {
         Object.keys(this.elementObject).forEach(key => {
             this[key] = this.elementObject[key]
         })
-        // add Event
+    }
+    initEvent() {
         Object.keys(this.eventObject).forEach(element => {
             Object.keys(this.eventObject[element]).forEach(type => {
                 this[element].addEventListener(type, this.eventUpdate(this.eventObject[element][type].bind(this)))
             })
         })
-        // add method again before mounted
-        Object.keys(this.methodObject).forEach(key => {
-            this[key] = this.methodObject[key].bind(this)
-        })
-        this.mounted()
-        delete this.elementObject
-        delete this.eventObject
-    }
-
-
-    async update() {
-        await this.updated()
-        return this.mounted()
     }
 
 }
