@@ -76,6 +76,13 @@ export const mapGetters = (stateName, stateList) => {
             }, {})
             return stateGetters
         }
+        if (typeof stateList === 'object') {
+            const stateGetters = Object.entries(stateList).reduce((acc, [key, value]) => {
+                acc[key] = currentGetter[value]
+                return acc
+            }, {})
+            return stateGetters
+        }
     }
 }
 
