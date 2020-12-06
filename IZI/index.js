@@ -94,15 +94,20 @@ export default class IZI {
         delete this.dataObject
     }
 
-    render() {
+    mount() {
         // add data to Component from computedObject
         this.initComputed()
         // add Element to Component
         this.initElement()
-        // add method again before mounted
-        this.initMethod()
 
         this.mounted()
+    }
+
+    render() {
+        // add data to Component from computedObject
+        this.initComputed()
+        // add method again before mounted
+        this.initMethod()
     }
 
     async update() {
