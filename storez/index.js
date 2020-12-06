@@ -66,15 +66,17 @@ export default class StoreZ {
 }
 
 export const mapGetters = (stateName, stateList) => {
-    const isArray = Array.isArray(stateList)
-    const currentGetter = store[stateName].getter
-    console.log('Getters', currentGetter)
-    if (isArray) {
-        const stateGetters = stateList.reduce((acc, item) => {
-            acc[item] = currentGetter[item]
-            return acc
-        }, {})
-        return stateGetters
+    return () => {
+        const isArray = Array.isArray(stateList)
+        const currentGetter = store[stateName].getter
+        console.log('Getters', currentGetter)
+        if (isArray) {
+            const stateGetters = stateList.reduce((acc, item) => {
+                acc[item] = currentGetter[item]
+                return acc
+            }, {})
+            return stateGetters
+        }
     }
 }
 

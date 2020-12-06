@@ -2,6 +2,7 @@ export default class IZI {
     constructor(props) {
         this.root = document.body
         this.props = props
+        this.dataObject = null
     }
 
     addRoot(root) {
@@ -40,9 +41,7 @@ export default class IZI {
     }
 
     data(dataObject) {
-        Object.keys(dataObject).forEach(key => {
-            this[key] = dataObject[key]
-        })
+        this.dataObject = dataObject
     }
 
     method(methodObject) {
@@ -52,8 +51,8 @@ export default class IZI {
     }
 
     lifeCycle(lifeCycleObject) {
-        if (lifeCycleObject.mount) {
-            this.mount = lifeCycleObject.mount.bind(this)
+        if (lifeCycleObject.mounted) {
+            this.mounted = lifeCycleObject.mounted.bind(this)
         }
         if (lifeCycleObject.updated) {
             this.updated = lifeCycleObject.updated.bind(this)
@@ -61,12 +60,28 @@ export default class IZI {
     }
 
     render() {
-        this.mount()
+        this.mounted()
+    }
+
+    // initial Data (after store fetching data)
+    create() {
+        Object.keys(this.dataObject).forEach(key => {
+            if (key === 'mapGetters') {
+                const getterObject = this.dataObject[key]()
+                Object.keys(getterObject).forEach(getterKey => {
+                    this[getterKey] = getterObject[getterKey]
+                })
+                return
+            }
+            this[key] = this.dataObject[key]
+        })
+
+        delete this.dataObject
     }
 
     async reRender() {
         await this.updated()
-        return this.mount()
+        return this.mounted()
     }
 
 }
