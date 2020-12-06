@@ -20,6 +20,7 @@ export default class IZI {
             ...this.props,
             ...props
         }
+        this.mount()
     }
 
     element(elementObject) {
@@ -82,7 +83,6 @@ export default class IZI {
         this.initMethod()
 
         this.created()
-        delete this.dataObject
     }
 
     mount() {
@@ -94,8 +94,6 @@ export default class IZI {
         this.initMethod()
 
         this.mounted()
-
-        delete this.elementObject
     }
 
     render() {
