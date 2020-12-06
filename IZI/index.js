@@ -54,7 +54,7 @@ export default class IZI {
     }
 
     lifeCycle(lifeCycleObject) {
-        if (lifeCycleObject.mounted) {
+        if (lifeCycleObject.mount) {
             this.mount = lifeCycleObject.mount.bind(this)
         }
         if (lifeCycleObject.updated) {
