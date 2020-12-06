@@ -90,6 +90,7 @@ export default class IZI {
         // add data to Component from computedObject
         Object.keys(this.computedObject).forEach(key => {
             if (typeof this.computedObject[key] !== 'function') return
+            this.computedObject[key] = this.computedObject[key].bind(this)
             this[key] = this.computedObject[key]()
         })
 
