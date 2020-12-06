@@ -84,8 +84,8 @@ export default class IZI {
 
     render() {
         // add Element to Component
-        Object.keys(elementObject).forEach(key => {
-            this[key] = elementObject[key]
+        Object.keys(this.elementObject).forEach(key => {
+            this[key] = this.elementObject[key]
         })
         // add Event
         Object.keys(this.eventObject).forEach(element => {
